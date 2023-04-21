@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Task 1</title>
+</head>
+<body>
+	<style>
+		body{
+			background-color: #fff;
+		}
+		a{
+			text-decoration: none;
+		}
+		.container{
+			display: flex;
+			padding-top: 50px;
+		}
+		.item{
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			padding: 5px;
+			border: 4px solid transparent;
+			position: relative;
+			transition: border 0.3s ease 0s;
+		}
+		.item__label{
+			position: absolute;
+			font-size: 16px;
+			border-radius: 10px;
+			background-color:orange;
+			padding: 3px 5px;
+			color: white;
+			z-index: 2;
+		}
+		.item__label_red{
+			background-color: red;
+		}
+		.item:hover{
+			border: 4px solid green;
+		}
+		.item:hover .img__card{
+			transform: scale(1.05);
+		}
+		.item__img{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+		}
+		.img__card{
+			width: 300px;
+			height: 170px;
+			z-index: 1;
+			transition: transform 0.3s ease 0s;
+		}
+		.item__title{
+			font-size: 18px;
+			color: black;
+			text-align: center;
+			transition: color 0.3s ease 0s;
+		}
+		.item:hover .item__title{
+			color: orange;
+		}
+		.item__price{
+			color: crimson;
+			font-size: 26px;
+			text-align: center;
+		}
+	</style>
+	<div class="container"></div>
+	<script>
+		//Відображаємо картки товарів, які користувач може вибирати. Вибраний товар має зелену рамку
+		let goodsList = [
+			{
+				imgSrc: 'img/01.jpg',
+				title: 'Ноутбук Apple MacBook Pro 14" M2 Max 1TB 2023 (MPHK3UA/A) Silver',
+				price: '153 999₴',
+				href: 'https://rozetka.com.ua/apple-mphk3ua-a/p364918902/',
+				label: 'Акція'
+			},
+			{
+				imgSrc: 'img/02.jpg',
+				title: 'Ноутбук Apple MacBook Pro 16" M2 Pro 512GB 2023 (MNW83UA/A) Space Gray',
+				price: '124 499₴',
+				href: 'https://rozetka.com.ua/apple-mnw83ua-a/p364900395/',
+				label: 'Топ продаж'
+			},
+			{
+				imgSrc: 'img/03.jpg',
+				title: 'Ноутбук Apple MacBook Pro 16" M1 Pro 512GB 2021 (MK1E3UA/A) Silver',
+				price: '93 999₴',
+				href: 'https://rozetka.com.ua/apple_macbook_pro_16_m1_pro_512gb_2021_silver/p322714711/',
+				label: 'Акція'
+			},
+			{
+				imgSrc: 'img/04.jpg',
+				title: 'Ноутбук Apple MacBook Pro 16" M1 Max 1TB 2021 (MK1A3UA/A) Space Gray',
+				price: '153 999₴',
+				href: 'https://rozetka.com.ua/apple_macbook_pro_16_m1_max_1tb_2021_space_gray/p322714708/',
+				label: 'Топ продаж'
+			}
+		]
+		class GoodCart{
+			constructor(initData){
+				this.imgSrc = initData.imgSrc,
+				this.title = initData.title,
+				this.price = initData.price,
+				this.href = initData.href,
+				this.label = initData.label
+			}
+			render(containerSelector){
+				//контейнер для картки
+				this.cardContainer = document.createElement('a')
+				this.cardContainer.className = 'item'
+				this.cardContainer.href = this.href
+				this.cardContainer.setAttribute('target','_blank')
+				//лейбл картки
+				this.labelContainer = document.createElement('div')
+				this.labelContainer.className = 'item__label'
+				this.labelContainer.innerText = this.label
+				this.cardContainer.prepend(this.labelContainer)
+				if(this.label === 'Акція') this.labelContainer.classList.add('item__label_red')
+				//контейнер для зоображення
+				this.imgContainer = document.createElement('div')
+				this.imgContainer.className = 'item__img'
+				this.cardContainer.append(this.imgContainer)
+				//саме зоображення
+				this.img = document.createElement('img')
+				this.img.className = 'img__card'
+				this.img.src = this.imgSrc
+				this.imgContainer.append(this.img)
+				//назва
+				this.titleContainer = document.createElement('p')
+				this.titleContainer.className = 'item__title'
+				this.titleContainer.innerText = this.title
+				this.cardContainer.append(this.titleContainer)
+				//ціна
+				this.priceContainer = document.createElement('p')
+				this.priceContainer.className = 'item__price'
+				this.priceContainer.innerText = this.price
+				this.cardContainer.append(this.priceContainer)
+				//
+				document.querySelector(containerSelector).append(this.cardContainer)
+			}
+		}
+		window.onload = function(){
+			let card1 = new GoodCart(goodsList[0])
+			card1.render('.container')
+			let card2 = new GoodCart(goodsList[1])
+			card2.render('.container')
+			let card3 = new GoodCart(goodsList[2])
+			card3.render('.container')
+			let card4 = new GoodCart(goodsList[3])
+			card4.render('.container')
+		}
+	</script>
+</body>
+</html>

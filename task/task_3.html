@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Task 3</title>
+</head>
+
+<body>
+	<style>
+		body{
+			background-color: dimgray;
+		}
+		.img__snow{
+			animation-name: snowRotate;
+			animation-duration: 4000ms;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+		@keyframes snowRotate {
+			from{
+				transform: rotate(0deg);
+			}
+			to{
+				transform: rotate(180deg);
+			}
+		}
+	</style>
+	<script>
+		/*Відобразити падаючий сніг. Сніжинка з’являється у верхній частині екрану і з випадковою швидкістю рухається вниз. 
+		Як тільки сніжинка досягає нижньої частини екрану вона знову повинна з’явитись у верхній частині екрану.*/
+		class Snow{
+			constructor(imgSrc,imgWidth,imgHeight,positionLeft,intervalTime){
+				this.imgSrc = imgSrc
+				this.imgWidth = imgWidth
+				this.imgHeight = imgHeight
+				this.positionLeft = positionLeft
+				this.imgPosTop = 0
+				this.intervalTime = intervalTime
+			}
+			snowFall(){
+				let newTop = parseInt(this.img.style.top) + 1
+				this.img.style.top = newTop + 'px'
+				const mainHeight = parseInt(window.innerHeight)
+				if((parseInt(this.img.style.top)+this.imgWidth) >= (mainHeight)){
+					this.img.style.top = 0
+				}
+			}
+			start(){
+				setInterval(
+					()=>this.snowFall(),this.intervalTime
+				)
+			}
+			render(targetSelector){
+				this.mainContainer = document.querySelector(targetSelector) 
+				this.mainContainer.style.position = 'relative'
+				//
+				this.img = document.createElement('img')
+				this.img.src = this.imgSrc
+				this.img.className = 'img__snow'
+				this.img.style.width = this.imgWidth + 'px'
+				this.img.style.height = this.imgHeight + 'px'
+				this.img.style.left = this.positionLeft + 'px'
+				this.img.style.top = this.imgPosTop + 'px'
+				this.img.style.position = 'absolute'
+				//
+				this.mainContainer.append(this.img)
+			}
+		}
+		window.onload = function(){
+			let snow1 = new Snow('img/snow_16.png',16,16,700,20)
+			snow1.render('#main')
+			snow1.start()
+			let snow2 = new Snow('img/snow_32.png',32,32,100,30)
+			snow2.render('#main')
+			snow2.start()
+			let snow3 = new Snow('img/snow_64.png',64,64,1300,10)
+			snow3.render('#main')
+			snow3.start()
+			let snow4 = new Snow('img/snow_16.png',16,16,600,10)
+			snow4.render('#main')
+			snow4.start()
+			let snow5 = new Snow('img/snow_32.png',32,32,900,40)
+			snow5.render('#main')
+			snow5.start()
+			let snow6 = new Snow('img/snow_64.png',64,64,430,20)
+			snow6.render('#main')
+			snow6.start()
+			let snow7 = new Snow('img/snow_64.png',32,32,200,20)
+			snow7.render('#main')
+			snow7.start()
+		}
+	</script>
+	<div id="main"></div>
+</body>
+</html>

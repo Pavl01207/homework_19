@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Task 5</title>
+</head>
+<body>
+	<style>
+		body{
+			background-color: darkslategray;
+			cursor: url('task_5/bomb.png'),auto;
+		}
+		
+	</style>
+	<script>
+	/*Байрактар. З верхньої частини екрану у випадковій позиції по горизонталі з’являються танки, які їдуть вниз. 
+	При кліку на танк він вибухає і зникає з екрану.*/
+	class Bayraktar{
+			constructor(imgSrc,imgWidth,positionTop,intervalTime){
+				this.imgSrc = imgSrc
+				this.imgWidth = imgWidth
+				this.positionTop = positionTop
+				this.imgPosRight = 0
+				this.intervalTime = intervalTime
+			}
+			moveTank(){
+				let newRight = parseInt(this.img.style.right) + 1
+				this.img.style.right = newRight + 'px'
+				const mainWidth = parseInt(window.innerWidth)
+				if((parseInt(this.img.style.right)+this.imgWidth) >= (mainWidth)){
+					this.img.style.right = 0
+				}
+			}
+			resetTank(){
+				this.img.src = this.imgSrc
+				this.img.style.right = 0
+			}
+			destroyTank(){
+				this.img.src = 'task_5/explode.png'
+				setTimeout(
+					() => this.resetTank(),500
+				)
+			}
+			start(){
+				this.intTime = setInterval(
+					()=>this.moveTank(),this.intervalTime
+				)
+			}
+			render(targetSelector){
+				this.mainContainer = document.querySelector(targetSelector) 
+				this.mainContainer.style.position = 'relative'
+				//
+				this.img = document.createElement('img')
+				this.img.src = this.imgSrc
+				this.img.className = 'img__tank'
+				this.img.style.right = this.imgPosRight + 'px'
+				this.img.style.top = this.positionTop + 'px'
+				this.img.style.position = 'absolute'
+				this.img.onmouseover = this.destroyTank.bind(this)
+				//
+				this.mainContainer.append(this.img)
+			}
+		}
+		window.onload = function(){
+			let tank1 = new Bayraktar('task_5/tank1.png',64,300,30)
+			tank1.render('.container')
+			tank1.start()
+			let tank2 = new Bayraktar('task_5/tank2.png',64,500,10)
+			tank2.render('.container')
+			tank2.start()
+			let tank3 = new Bayraktar('task_5/tank3.png',64,100,25)
+			tank3.render('.container')
+			tank3.start()
+			let tank4 = new Bayraktar('task_5/tank4.png',64,400,15)
+			tank4.render('.container')
+			tank4.start()
+			let tank5 = new Bayraktar('task_5/tank5.png',64,200,20)
+			tank5.render('.container')
+			tank5.start()
+		}
+	</script>
+	<div class="container"></div>
+</body>
+</html>

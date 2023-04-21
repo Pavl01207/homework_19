@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Task 2</title>
+</head>
+
+<body>
+	<style>
+		.container{
+			display: flex;
+			gap: 50px;
+		}
+		.item{
+			height: 400px;
+			border: 2px solid brown;
+			padding: 20px;
+		}
+		.title{
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+		.list__container{
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+		.list{
+			margin-left: -40px;
+		}
+	.list__item{
+		list-style: none;
+		border: 1px solid black;
+		padding: 10px;
+		width: 150px;
+		position: relative;
+	}
+	.list__item:hover{
+		background-color: cadetblue;
+		cursor: pointer;
+	}
+	.list__item:not(:last-child){
+		margin-bottom: 10px;
+	}
+	.list__item_add{
+		padding-right: 40px;
+	}
+	.list__item_remove{
+		padding-left: 40px;
+		text-align: right;
+	}
+	.list__item_remove::before{
+		position: absolute;
+		top: 10px;
+		left: 0;
+		content: '';
+		background: url(left.png) center no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	.list__item_add::after{
+		position: absolute;
+		top: 10px;
+		right: 0;
+		content: '';
+		background: url(right.png) center no-repeat;
+		width: 32px;
+		height: 32px;
+	}
+	</style>
+	<script>
+		/*Дано список спортсменів. Потрібно сформувати список тих, які будуть брати участь у змаганні. 
+		При цьому є два стовпці. В одному відображені всі спортсмени, в іншому – список тих, хто був вибраний. 
+		При натисканні на зелену стрілку спортсмен переміщається у список для змагань. 
+		При натисканні на червону стрілку спортсмен переміщається у загальний список.*/
+		//------------------------------
+		//Нажаль не зміг доробити,не розумію чому подія працює тільки на останньому li списка
+		//------------------------------
+		class SportsmanTable{
+			constructor(sportsmanList,styleObject){
+				this.sportsmanList = sportsmanList
+				this.styleObject = styleObject
+			}
+			addSportman(){
+				this.li.classList.remove('list__item_add')
+				this.li.classList.add('list__item_remove')
+				this.list.append(this.li)
+				this.li.onclick = this.backSportsman.bind(this)
+			}
+			backSportsman(){
+				this.li.classList.remove('list__item_remove')
+				this.li.classList.add('list__item_add')
+				this.listOne.append(this.li)
+			}
+			render(targetSelector){
+				//основний контейнер
+				const mainConatiner = document.createElement('div')
+				mainConatiner.classList = this.styleObject.container
+				//
+				const table1 = document.createElement('div')
+				table1.className = this.styleObject.item
+				//
+				const titleOne = document.createElement('div')
+				titleOne.className = this.styleObject.title
+				titleOne.innerText = 'Загальний список'
+				table1.append(titleOne)
+				//
+				const listContainerOne = document.createElement('div')
+				listContainerOne.className = this.styleObject.listContainer
+				table1.append(listContainerOne)
+				//
+				this.listOne = document.createElement('ul')
+				this.listOne.className = this.styleObject.list
+				this.listOne.setAttribute('id','List')
+				//
+				for(const li of this.sportsmanList){
+				this.li = document.createElement('li')
+				this.li.className = this.styleObject.listItem
+				this.li.classList.add('list__item_add')
+				this.li.innerText = li
+				this.listOne.append(this.li)
+				}
+				//this.li.onclick = this.addSportman.bind(this)
+				let itemList = document.getElementsByTagName('li')
+				for(const el of itemList){
+					el.onclick = this.addSportman.bind(this)
+				}
+				console.log(itemList)
+				//
+				listContainerOne.append(this.listOne)
+				mainConatiner.append(table1)
+				//
+				const table2 = document.createElement('div')
+				table2.className = this.styleObject.item
+				//
+				const title = document.createElement('div')
+				title.className = this.styleObject.title
+				title.innerText = 'Обрані до змагання'
+				table2.append(title)
+				//
+				const listContainer = document.createElement('div')
+				listContainer.className = this.styleObject.listContainer
+				table2.append(listContainer)
+				//
+				this.list = document.createElement('ul')
+				this.list.className = this.styleObject.list
+				listContainer.append(this.list)
+				mainConatiner.append(table2)
+				//
+				document.querySelector(targetSelector).append(mainConatiner)
+			}
+		}
+		//список спортсменів
+		let sportsmanList = ['John Depp','Sara Wik','Den Miro','Alan Woo','Olga Sich','Ivan Hal']
+		//об'єкт із стилями
+		let styleObject = {
+			container: 'container',
+			item: 'item',
+			title: 'title',
+			list: 'list',
+			listContainer: 'list__container',
+			listItem: 'list__item'
+		}
+		window.onload = function(){
+			let sportTable = new SportsmanTable(sportsmanList,styleObject)
+			sportTable.render('.main')
+		}
+	</script>
+	<div class="main"></div>
+</body>
+</html>

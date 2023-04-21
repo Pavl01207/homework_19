@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>Task 4</title>
+</head>
+<body>
+<style>
+	body{
+		background-color:black;
+	}
+	.star{
+		width: 1px;
+		height: 1px;
+		background-color: aqua;
+		border-radius: 50%;
+		box-shadow: 1px 1px 30px 0px #90e0ef;
+	}
+</style>
+<script>
+	/*Сяючі зорі. Вказана кількість зірочок повинна з’являтися у випадковій частині екрану. 
+	Кожна зірка з певним кроком і інтервалом збільшується від мінімального до максимального розміру. 
+	Як тільки досягнути максимального розміру зірочка повинна з’являтися у іншій випадковій позиції.*/
+	class MakeStar{
+		constructor(){
+			this.spreadRadius = 0
+		}
+		getRandomNumber(min,max){
+			return min + Math.floor(Math.random() * (max - min +1))
+		}
+		upgradePosition(){
+			this.star.style.left = this.getRandomNumber(0,1400) + 'px'
+			this.star.style.top = this.getRandomNumber(0,700) + 'px'
+		}
+		riseOn(){
+			this.spreadRadius++
+			this.star.style.boxShadow = `1px 1px 30px ${this.spreadRadius}px #90e0ef`
+			if(this.spreadRadius >= 30) {
+				this.spreadRadius = 0
+				this.upgradePosition() 
+			}
+		}
+		shineStar(userTime){
+			setInterval(
+				() => this.riseOn(),userTime
+			)
+		}
+		render(targetSelector){
+			const mainContainer = document.querySelector(targetSelector)
+			mainContainer.style.position = 'relative'
+			mainContainer.style.window = '1200px'
+			mainContainer.style.height = '600px'
+			//
+			this.star = document.createElement('div')
+			this.star.className = 'star'
+			this.star.style.position = 'absolute'
+			this.star.style.left = this.getRandomNumber(0,1000) + 'px'
+			this.star.style.top = this.getRandomNumber(0,600) + 'px'
+			this.star.style.boxShadow = `1px 1px 30px 0px #90e0ef`
+			mainContainer.append(this.star)
+			console.log(this.star.style.left)
+			console.log(this.star.style.top)
+		}
+	}
+	window.onload = function(){
+		function rand(min,max){
+			return min + Math.floor(Math.random() * (max - min +1))
+		}
+		for(let i = 0;i < 10; i++){
+			let star = new MakeStar()
+			star.render('.container')
+			star.shineStar(rand(100,300))
+		}
+	}
+</script>
+<div class="container">
+</div>
+</body>
+</html>
